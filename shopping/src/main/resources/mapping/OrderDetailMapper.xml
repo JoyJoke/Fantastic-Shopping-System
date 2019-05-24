@@ -8,6 +8,9 @@
         <result column="item_id" jdbcType="INTEGER" property="itemId"/>
         <result column="item_num" jdbcType="INTEGER" property="itemNum"/>
     </resultMap>
+    <resultMap id="DetailItemResultMap" type="OrderDetail" extends="BaseResultMap">
+        <association property="items" resultMap="com.zhf.shopping.mapper.ItemsMapper.BaseResultMap"/>
+    </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         detail_id, order_id, item_id, item_num

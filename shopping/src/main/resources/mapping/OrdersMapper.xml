@@ -9,37 +9,23 @@
         <result column="create_time" jdbcType="DATE" property="createTime"/>
     </resultMap>
     <resultMap id="OrderUserResultMap" type="com.zhf.shopping.entity.Orders" extends="BaseResultMap">
-        <association property="user" javaType="com.zhf.shopping.entity.User">
-            <id column="user_id" jdbcType="INTEGER" property="userId"/>
-            <result column="username" jdbcType="VARCHAR" property="username"/>
-            <result column="sex" jdbcType="VARCHAR" property="sex"/>
-            <result column="birthday" jdbcType="TIMESTAMP" property="birthday"/>
-        </association>
+        <association property="user" resultMap="com.zhf.shopping.mapper.UserMapper.BaseResultMap"/>
     </resultMap>
     <resultMap id="OrdersAndOrderDetailResultMap" type="com.zhf.shopping.entity.Orders" extends="OrderUserResultMap">
-        <collection property="orderdetails" ofType="com.zhf.shopping.entity.OrderDetail">
-            <id column="detail_id" property="detailId"/>
-            <result column="item_id" property="itemId"/>
-            <result column="item_num" property="itemNum"/>
-            <result column="order_id" property="orderId"/>
-        </collection>
+        <collection property="orderdetails" resultMap="com.zhf.shopping.mapper.OrderDetailMapper.BaseResultMap"/>
+    </resultMap>
+    <resultMap id="OrderItemsResultMap" type="Orders">
+        <collection property="orderdetails" resultMap="com.zhf.shopping.mapper.OrderDetailMapper.DetailItemResultMap"/>
     </resultMap>
     <select id="findUserByOrderId" resultMap="OrderUserResultMap">
-        select t1.*, t2.username, t2.sex, t2.birthday
+        select t1.*, t2.username
         from orders t1,
              user t2
         where t1.user_id = t2.user_id
           and t1.order_id = #{orderId,jdbcType=INTEGER}
     </select>
     <select id="findOrderDetailsByOrderId" resultMap="OrdersAndOrderDetailResultMap">
-        select t1.*,
-               t2.username,
-               t2.sex,
-               t2.birthday,
-               t3.item_id,
-               t3.order_id,
-               t3.item_num,
-               t3.detail_id
+        select t1.*, t2.username, t3.item_id, t3.item_num, t3.detail_id
         from orders t1,
              user t2,
              order_detail t3

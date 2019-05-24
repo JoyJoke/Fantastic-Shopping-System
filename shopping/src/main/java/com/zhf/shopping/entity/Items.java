@@ -70,4 +70,15 @@ public class Items implements Serializable {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
+    @Override
+    public String toString() {
+        return "Items{" +
+                "itemId=" + itemId +
+                ", itemName='" + itemName + '\'' +
+                ", detail='" + detail + '\'' +
+                ", picture='" + picture + '\'' +
+                ", createTime=" + createTime +
+                '}';
+    }
 }

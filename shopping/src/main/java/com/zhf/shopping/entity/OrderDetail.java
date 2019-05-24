@@ -25,9 +25,6 @@ public class OrderDetail implements Serializable {
 
     private Items items;
 
-    public void setItems(Items items) {
-        this.items = items;
-    }
 
     private static final long serialVersionUID = 1L;
 
@@ -65,6 +62,10 @@ public class OrderDetail implements Serializable {
 
     public Items getItems() {
         return items;
+    }
+
+    public void setItems(Items items) {
+        this.items = items;
     }
 
     @Override

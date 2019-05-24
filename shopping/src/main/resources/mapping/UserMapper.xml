@@ -11,39 +11,14 @@
         <result column="phone" jdbcType="CHAR" property="phone"/>
     </resultMap>
     <resultMap extends="BaseResultMap" id="UserOrderResultMap" type="com.zhf.shopping.entity.User">
-        <collection ofType="com.zhf.shopping.entity.Orders" property="orders">
-            <id column="order_id" jdbcType="INTEGER" property="orderId"/>
-            <result column="user_id" jdbcType="INTEGER" property="userId"/>
-            <result column="number" jdbcType="VARCHAR" property="number"/>
-            <result column="create_time" jdbcType="DATE" property="createTime"/>
-        </collection>
+        <collection property="orders" resultMap="com.zhf.shopping.mapper.OrdersMapper.BaseResultMap"/>
     </resultMap>
     <resultMap extends="BaseResultMap" id="UserItemsResultMap" type="com.zhf.shopping.entity.User">
-        <collection ofType="com.zhf.shopping.entity.Orders" property="orders">
-            <id column="order_id" jdbcType="INTEGER" property="orderId"/>
-            <result column="user_id" jdbcType="INTEGER" property="userId"/>
-            <result column="number" jdbcType="VARCHAR" property="number"/>
-            <result column="create_time" jdbcType="DATE" property="createTime"/>
-            <collection ofType="com.zhf.shopping.entity.OrderDetail" property="orderdetails">
-                <id column="detail_id" property="detailId"/>
-                <result column="item_id" property="itemId"/>
-                <result column="item_num" property="itemNum"/>
-                <result column="order_id" property="orderId"/>
-                <association javaType="com.zhf.shopping.entity.Items" property="items">
-                    <id column="item_id" jdbcType="INTEGER" property="itemId"/>
-                    <result column="item_name" jdbcType="VARCHAR" property="itemName"/>
-                    <result column="detail" jdbcType="VARCHAR" property="detail"/>
-                    <result column="picture" jdbcType="VARCHAR" property="picture"/>
-                    <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-                </association>
-            </collection>
-        </collection>
+        <collection property="orders" resultMap="com.zhf.shopping.mapper.OrdersMapper.OrderItemsResultMap"/>
     </resultMap>
     <select id="findItemsByUserId" resultMap="UserItemsResultMap">
         select t1.*,
                t2.username,
-               t2.sex,
-               t2.birthday,
                t3.detail_id,
                t3.item_id,
                t3.item_num,
@@ -61,7 +36,7 @@
           and t2.user_id = #{userId,jdbcType=INTEGER}
     </select>
     <select id="findOrdersByUserId" resultMap="UserOrderResultMap">
-        select t1.*, t2.username, t2.sex, t2.birthday
+        select t1.*, t2.username
         from orders t1,
              user t2
         where t1.user_id = t2.user_id

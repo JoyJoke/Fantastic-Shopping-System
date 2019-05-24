@@ -1,0 +1,6 @@
+2019-05-24 20:01:56,175 INFO [StartupInfoLogger.java:50]- Starting ShoppingApplication on LAPTOP-P5AG9A0C with PID 16268 (C:\Users\USER\Desktop\Shopping\shopping\target\classes started by USER in C:\Users\USER\Desktop\Shopping\shopping)
+2019-05-24 20:01:56,177 DEBUG [StartupInfoLogger.java:53]- Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-05-24 20:01:56,177 INFO [SpringApplication.java:675]- No active profile set, falling back to default profiles: default
+2019-05-24 20:02:12,635 INFO [StartupInfoLogger.java:50]- Starting ShoppingApplication on LAPTOP-P5AG9A0C with PID 1012 (C:\Users\USER\Desktop\Shopping\shopping\target\classes started by USER in C:\Users\USER\Desktop\Shopping\shopping)
+2019-05-24 20:02:12,645 DEBUG [StartupInfoLogger.java:53]- Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-05-24 20:02:12,655 INFO [SpringApplication.java:675]- No active profile set, falling back to default profiles: default
