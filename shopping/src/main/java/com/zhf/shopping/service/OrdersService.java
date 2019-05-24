@@ -1,10 +1,13 @@
 package com.zhf.shopping.service;
 
+import com.zhf.shopping.entity.OrderDetail;
 import com.zhf.shopping.entity.Orders;
+import com.zhf.shopping.entity.User;
 import com.zhf.shopping.mapper.OrdersMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class OrdersService {
@@ -42,4 +45,11 @@ public class OrdersService {
         return ordersMapper.updateByPrimaryKey(record);
     }
 
+    public User findUserByOrderId(Integer orderId) {
+        return ordersMapper.findUserByOrderId(orderId);
+    }
+
+    public List<OrderDetail> findOrderDetailsByOrderId(Integer orderId) {
+        return ordersMapper.findOrderDetailsByOrderId(orderId);
+    }
 }

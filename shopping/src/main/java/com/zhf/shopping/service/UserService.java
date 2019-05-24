@@ -1,10 +1,12 @@
 package com.zhf.shopping.service;
 
+import com.zhf.shopping.entity.Orders;
 import com.zhf.shopping.entity.User;
 import com.zhf.shopping.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -42,5 +44,12 @@ public class UserService {
         return userMapper.updateByPrimaryKey(record);
     }
 
+    public List<Orders> findOrdersByUserId(Integer userId) {
+        return userMapper.findOrdersByUserId(userId);
+    }
 
+    public User findItemsByUserId(Integer userId) {
+        return userMapper.findItemsByUserId(userId);
+    }
 }
+

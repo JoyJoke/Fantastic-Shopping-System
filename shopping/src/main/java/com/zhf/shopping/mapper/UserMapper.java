@@ -2,12 +2,10 @@ package com.zhf.shopping.mapper;
 
 import com.zhf.shopping.entity.Orders;
 import com.zhf.shopping.entity.User;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
-@Mapper
-public interface UserMapper<findOrderById> {
+public interface UserMapper {
     int deleteByPrimaryKey(Integer userId);
 
     int insert(User record);

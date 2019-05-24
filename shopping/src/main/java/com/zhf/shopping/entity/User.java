@@ -6,7 +6,7 @@ import java.util.List;
 
 public class User implements Serializable {
     /**
-     * userId
+     * id
      */
     private Integer userId;
 
@@ -25,12 +25,12 @@ public class User implements Serializable {
      */
     private Date birthday;
 
+    private String password;
+
+    private String phone;
+
     private List<Orders> orders;
 
-
-    public void setOrders(List<Orders> orders) {
-        this.orders = orders;
-    }
 
     private static final long serialVersionUID = 1L;
 
@@ -66,8 +66,28 @@ public class User implements Serializable {
         this.birthday = birthday;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public List<Orders> getOrders() {
         return orders;
+    }
+
+    public void setOrders(List<Orders> orders) {
+        this.orders = orders;
     }
 
     @Override
@@ -77,6 +97,8 @@ public class User implements Serializable {
                 ", username='" + username + '\'' +
                 ", sex='" + sex + '\'' +
                 ", birthday=" + birthday +
+                ", password='" + password + '\'' +
+                ", phone='" + phone + '\'' +
                 ", orders=" + orders +
                 '}';
     }

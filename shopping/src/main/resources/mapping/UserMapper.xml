@@ -7,27 +7,29 @@
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="sex" jdbcType="VARCHAR" property="sex"/>
         <result column="birthday" jdbcType="TIMESTAMP" property="birthday"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="phone" jdbcType="CHAR" property="phone"/>
     </resultMap>
-    <resultMap id="UserOrderResultMap" type="com.zhf.shopping.entity.User" extends="BaseResultMap">
-        <collection property="orders" ofType="com.zhf.shopping.entity.Orders">
+    <resultMap extends="BaseResultMap" id="UserOrderResultMap" type="com.zhf.shopping.entity.User">
+        <collection ofType="com.zhf.shopping.entity.Orders" property="orders">
             <id column="order_id" jdbcType="INTEGER" property="orderId"/>
             <result column="user_id" jdbcType="INTEGER" property="userId"/>
             <result column="number" jdbcType="VARCHAR" property="number"/>
             <result column="create_time" jdbcType="DATE" property="createTime"/>
         </collection>
     </resultMap>
-    <resultMap id="UserItemsResultMap" type="com.zhf.shopping.entity.User" extends="BaseResultMap">
-        <collection property="orders" ofType="com.zhf.shopping.entity.Orders">
+    <resultMap extends="BaseResultMap" id="UserItemsResultMap" type="com.zhf.shopping.entity.User">
+        <collection ofType="com.zhf.shopping.entity.Orders" property="orders">
             <id column="order_id" jdbcType="INTEGER" property="orderId"/>
             <result column="user_id" jdbcType="INTEGER" property="userId"/>
             <result column="number" jdbcType="VARCHAR" property="number"/>
             <result column="create_time" jdbcType="DATE" property="createTime"/>
-            <collection property="orderdetails" ofType="com.zhf.shopping.entity.OrderDetail">
+            <collection ofType="com.zhf.shopping.entity.OrderDetail" property="orderdetails">
                 <id column="detail_id" property="detailId"/>
                 <result column="item_id" property="itemId"/>
                 <result column="item_num" property="itemNum"/>
                 <result column="order_id" property="orderId"/>
-                <association property="items" javaType="com.zhf.shopping.entity.Items">
+                <association javaType="com.zhf.shopping.entity.Items" property="items">
                     <id column="item_id" jdbcType="INTEGER" property="itemId"/>
                     <result column="item_name" jdbcType="VARCHAR" property="itemName"/>
                     <result column="detail" jdbcType="VARCHAR" property="detail"/>
@@ -67,7 +69,7 @@
     </select>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        user_id, username, sex, birthday
+        user_id, username, sex, birthday, `password`, phone
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -81,19 +83,22 @@
         delete from user
         where user_id = #{userId,jdbcType=INTEGER}
     </delete>
-    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.zhf.shopping.entity.User"
-            useGeneratedKeys="true">
+    <insert id="insert" parameterType="com.zhf.shopping.entity.User">
         <!--@mbg.generated-->
-        insert into user (username, sex, birthday
+        insert into user (user_id, username, sex,
+        birthday, `password`, phone
         )
-        values (#{username,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}
+        values (#{userId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR},
+        #{birthday,jdbcType=TIMESTAMP}, #{password,jdbcType=VARCHAR}, #{phone,jdbcType=CHAR}
         )
     </insert>
-    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.zhf.shopping.entity.User"
-            useGeneratedKeys="true">
+    <insert id="insertSelective" parameterType="com.zhf.shopping.entity.User">
         <!--@mbg.generated-->
         insert into user
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
             <if test="username != null">
                 username,
             </if>
@@ -103,8 +108,17 @@
             <if test="birthday != null">
                 birthday,
             </if>
+            <if test="password != null">
+                `password`,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
             <if test="username != null">
                 #{username,jdbcType=VARCHAR},
             </if>
@@ -113,6 +127,12 @@
             </if>
             <if test="birthday != null">
                 #{birthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=CHAR},
             </if>
         </trim>
     </insert>
@@ -129,6 +149,12 @@
             <if test="birthday != null">
                 birthday = #{birthday,jdbcType=TIMESTAMP},
             </if>
+            <if test="password != null">
+                `password` = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=CHAR},
+            </if>
         </set>
         where user_id = #{userId,jdbcType=INTEGER}
     </update>
@@ -137,7 +163,10 @@
         update user
         set username = #{username,jdbcType=VARCHAR},
         sex = #{sex,jdbcType=VARCHAR},
-        birthday = #{birthday,jdbcType=TIMESTAMP}
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+        `password` = #{password,jdbcType=VARCHAR},
+        phone = #{phone,jdbcType=CHAR}
         where user_id = #{userId,jdbcType=INTEGER}
     </update>
+
 </mapper>
