@@ -32,7 +32,14 @@
           and t1.order_id = #{orderId,jdbcType=INTEGER}
     </select>
     <select id="findOrderDetailsByOrderId" resultMap="OrdersAndOrderDetailResultMap">
-        select t1.*, t2.username, t2.sex, t2.birthday, t3.item_id, t3.item_num, t3.detail_id
+        select t1.*,
+               t2.username,
+               t2.sex,
+               t2.birthday,
+               t3.item_id,
+               t3.order_id,
+               t3.item_num,
+               t3.detail_id
         from orders t1,
              user t2,
              order_detail t3
