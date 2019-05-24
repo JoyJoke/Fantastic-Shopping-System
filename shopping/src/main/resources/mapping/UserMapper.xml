@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhf.shopping.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.zhf.shopping.entity.User">
+        <!--@mbg.generated-->
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="sex" jdbcType="VARCHAR" property="sex"/>
+        <result column="birthday" jdbcType="TIMESTAMP" property="birthday"/>
+    </resultMap>
+    <resultMap id="UserOrderResultMap" type="com.zhf.shopping.entity.User" extends="BaseResultMap">
+        <collection property="orders" ofType="com.zhf.shopping.entity.Orders">
+            <id column="order_id" jdbcType="INTEGER" property="orderId"/>
+            <result column="user_id" jdbcType="INTEGER" property="userId"/>
+            <result column="number" jdbcType="VARCHAR" property="number"/>
+            <result column="create_time" jdbcType="DATE" property="createTime"/>
+        </collection>
+    </resultMap>
+    <resultMap id="UserItemsResultMap" type="com.zhf.shopping.entity.User" extends="BaseResultMap">
+        <collection property="orders" ofType="com.zhf.shopping.entity.Orders">
+            <id column="order_id" jdbcType="INTEGER" property="orderId"/>
+            <result column="user_id" jdbcType="INTEGER" property="userId"/>
+            <result column="number" jdbcType="VARCHAR" property="number"/>
+            <result column="create_time" jdbcType="DATE" property="createTime"/>
+            <collection property="orderdetails" ofType="com.zhf.shopping.entity.OrderDetail">
+                <id column="detail_id" property="detailId"/>
+                <result column="item_id" property="itemId"/>
+                <result column="item_num" property="itemNum"/>
+                <result column="order_id" property="orderId"/>
+                <association property="items" javaType="com.zhf.shopping.entity.Items">
+                    <id column="item_id" jdbcType="INTEGER" property="itemId"/>
+                    <result column="item_name" jdbcType="VARCHAR" property="itemName"/>
+                    <result column="detail" jdbcType="VARCHAR" property="detail"/>
+                    <result column="picture" jdbcType="VARCHAR" property="picture"/>
+                    <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+                </association>
+            </collection>
+        </collection>
+    </resultMap>
+    <select id="findItemsByUserId" resultMap="UserItemsResultMap">
+        select t1.*,
+               t2.username,
+               t2.sex,
+               t2.birthday,
+               t3.detail_id,
+               t3.item_id,
+               t3.item_num,
+               t4.item_name,
+               t4.create_time,
+               t4.detail,
+               t4.picture
+        from orders t1,
+             user t2,
+             order_detail t3,
+             items t4
+        where t1.user_id = t2.user_id
+          and t1.order_id = t3.order_id
+          and t3.item_id = t4.item_id
+          and t2.user_id = #{userId,jdbcType=INTEGER}
+    </select>
+    <select id="findOrdersByUserId" resultMap="UserOrderResultMap">
+        select t1.*, t2.username, t2.sex, t2.birthday
+        from orders t1,
+             user t2
+        where t1.user_id = t2.user_id
+          and t2.user_id = #{userId,jdbcType=INTEGER}
+    </select>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        user_id, username, sex, birthday
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where user_id = #{userId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--@mbg.generated-->
+        delete from user
+        where user_id = #{userId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.zhf.shopping.entity.User"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into user (username, sex, birthday
+        )
+        values (#{username,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.zhf.shopping.entity.User"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                username,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="birthday != null">
+                birthday,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="birthday != null">
+                #{birthday,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zhf.shopping.entity.User">
+        <!--@mbg.generated-->
+        update user
+        <set>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zhf.shopping.entity.User">
+        <!--@mbg.generated-->
+        update user
+        set username = #{username,jdbcType=VARCHAR},
+        sex = #{sex,jdbcType=VARCHAR},
+        birthday = #{birthday,jdbcType=TIMESTAMP}
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+</mapper>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhf.shopping.mapper.OrderDetailMapper">
+    <resultMap id="BaseResultMap" type="com.zhf.shopping.entity.OrderDetail">
+        <!--@mbg.generated-->
+        <id column="detail_id" jdbcType="INTEGER" property="detailId"/>
+        <result column="order_id" jdbcType="INTEGER" property="orderId"/>
+        <result column="item_id" jdbcType="INTEGER" property="itemId"/>
+        <result column="item_num" jdbcType="INTEGER" property="itemNum"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        detail_id, order_id, item_id, item_num
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from order_detail
+        where detail_id = #{detailId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--@mbg.generated-->
+        delete from order_detail
+        where detail_id = #{detailId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="detail_id" keyProperty="detailId" parameterType="com.zhf.shopping.entity.OrderDetail"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into order_detail (order_id, item_id, item_num
+        )
+        values (#{orderId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, #{itemNum,jdbcType=INTEGER}
+        )
+    </insert>
+    <insert id="insertSelective" keyColumn="detail_id" keyProperty="detailId"
+            parameterType="com.zhf.shopping.entity.OrderDetail" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into order_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="itemId != null">
+                item_id,
+            </if>
+            <if test="itemNum != null">
+                item_num,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">
+                #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="itemId != null">
+                #{itemId,jdbcType=INTEGER},
+            </if>
+            <if test="itemNum != null">
+                #{itemNum,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zhf.shopping.entity.OrderDetail">
+        <!--@mbg.generated-->
+        update order_detail
+        <set>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="itemId != null">
+                item_id = #{itemId,jdbcType=INTEGER},
+            </if>
+            <if test="itemNum != null">
+                item_num = #{itemNum,jdbcType=INTEGER},
+            </if>
+        </set>
+        where detail_id = #{detailId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zhf.shopping.entity.OrderDetail">
+        <!--@mbg.generated-->
+        update order_detail
+        set order_id = #{orderId,jdbcType=INTEGER},
+        item_id = #{itemId,jdbcType=INTEGER},
+        item_num = #{itemNum,jdbcType=INTEGER}
+        where detail_id = #{detailId,jdbcType=INTEGER}
+    </update>
+</mapper>

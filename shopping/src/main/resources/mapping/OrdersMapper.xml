@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhf.shopping.mapper.OrdersMapper">
+    <resultMap id="BaseResultMap" type="com.zhf.shopping.entity.Orders">
+        <!--@mbg.generated-->
+        <id column="order_id" jdbcType="INTEGER" property="orderId"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="number" jdbcType="VARCHAR" property="number"/>
+        <result column="create_time" jdbcType="DATE" property="createTime"/>
+    </resultMap>
+    <resultMap id="OrderUserResultMap" type="com.zhf.shopping.entity.Orders" extends="BaseResultMap">
+        <association property="user" javaType="com.zhf.shopping.entity.User">
+            <id column="user_id" jdbcType="INTEGER" property="userId"/>
+            <result column="username" jdbcType="VARCHAR" property="username"/>
+            <result column="sex" jdbcType="VARCHAR" property="sex"/>
+            <result column="birthday" jdbcType="TIMESTAMP" property="birthday"/>
+        </association>
+    </resultMap>
+    <resultMap id="OrdersAndOrderDetailResultMap" type="com.zhf.shopping.entity.Orders" extends="OrderUserResultMap">
+        <collection property="orderdetails" ofType="com.zhf.shopping.entity.OrderDetail">
+            <id column="detail_id" property="detailId"/>
+            <result column="item_id" property="itemId"/>
+            <result column="item_num" property="itemNum"/>
+            <result column="order_id" property="orderId"/>
+        </collection>
+    </resultMap>
+    <select id="findUserByOrderId" resultMap="OrderUserResultMap">
+        select t1.*, t2.username, t2.sex, t2.birthday
+        from orders t1,
+             user t2
+        where t1.user_id = t2.user_id
+          and t1.order_id = #{orderId,jdbcType=INTEGER}
+    </select>
+    <select id="findOrderDetailsByOrderId" resultMap="OrdersAndOrderDetailResultMap">
+        select t1.*, t2.username, t2.sex, t2.birthday, t3.item_id, t3.item_num, t3.detail_id
+        from orders t1,
+             user t2,
+             order_detail t3
+        where t1.user_id = t2.user_id
+          and t1.order_id = t3.order_id
+          and t1.order_id = #{orderId,jdbcType=INTEGER}
+    </select>
+
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        order_id, user_id, `number`, create_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from orders
+        where order_id = #{orderId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--@mbg.generated-->
+        delete from orders
+        where order_id = #{orderId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.zhf.shopping.entity.Orders"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into orders (user_id, `number`, create_time
+        )
+        values (#{userId,jdbcType=INTEGER}, #{number,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE}
+        )
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.zhf.shopping.entity.Orders"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into orders
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="number != null">
+                `number`,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="number != null">
+                #{number,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=DATE},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zhf.shopping.entity.Orders">
+        <!--@mbg.generated-->
+        update orders
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="number != null">
+                `number` = #{number,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=DATE},
+            </if>
+        </set>
+        where order_id = #{orderId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zhf.shopping.entity.Orders">
+        <!--@mbg.generated-->
+        update orders
+        set user_id = #{userId,jdbcType=INTEGER},
+        `number` = #{number,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=DATE}
+        where order_id = #{orderId,jdbcType=INTEGER}
+    </update>
+</mapper>
