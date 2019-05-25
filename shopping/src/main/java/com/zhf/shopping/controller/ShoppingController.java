@@ -7,6 +7,8 @@ import com.zhf.shopping.service.OrderDetailService;
 import com.zhf.shopping.service.OrdersService;
 import com.zhf.shopping.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,9 +28,13 @@ public class ShoppingController {
     @Autowired
     private ItemsService itemsService;
 
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
     @ResponseBody
+    @Cacheable(value = "orders", cacheManager = "redisCacheManager")
     @GetMapping("orders/get")
     public List<User> getOrdersByUserId(@RequestParam("userId") Integer userId) {
+        stringRedisTemplate.opsForValue().set("orders", userService.findOrdersByUserId(userId).toString());
         return userService.findOrdersByUserId(userId);
     }
 
