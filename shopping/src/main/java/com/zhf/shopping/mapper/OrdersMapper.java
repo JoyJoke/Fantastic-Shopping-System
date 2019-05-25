@@ -1,8 +1,6 @@
 package com.zhf.shopping.mapper;
 
-import com.zhf.shopping.entity.OrderDetail;
 import com.zhf.shopping.entity.Orders;
-import com.zhf.shopping.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -21,7 +19,7 @@ public interface OrdersMapper {
 
     int updateByPrimaryKey(Orders record);
 
-    User findUserByOrderId(Integer orderId);
+    Orders findUserByOrderId(Integer orderId);
 
-    List<OrderDetail> findOrderDetailsByOrderId(Integer orderId);
+    List<Orders> findOrderDetailsByOrderId(Integer orderId);
 }

@@ -1,8 +1,6 @@
 package com.zhf.shopping.service;
 
-import com.zhf.shopping.entity.OrderDetail;
 import com.zhf.shopping.entity.Orders;
-import com.zhf.shopping.entity.User;
 import com.zhf.shopping.mapper.OrdersMapper;
 import org.springframework.stereotype.Service;
 
@@ -45,11 +43,12 @@ public class OrdersService {
         return ordersMapper.updateByPrimaryKey(record);
     }
 
-    public User findUserByOrderId(Integer orderId) {
+
+    public Orders findUserByOrderId(Integer orderId) {
         return ordersMapper.findUserByOrderId(orderId);
     }
 
-    public List<OrderDetail> findOrderDetailsByOrderId(Integer orderId) {
+    public List<Orders> findOrderDetailsByOrderId(Integer orderId) {
         return ordersMapper.findOrderDetailsByOrderId(orderId);
     }
 }

@@ -14,9 +14,14 @@
     <resultMap id="OrdersAndOrderDetailResultMap" type="com.zhf.shopping.entity.Orders" extends="OrderUserResultMap">
         <collection property="orderdetails" resultMap="com.zhf.shopping.mapper.OrderDetailMapper.BaseResultMap"/>
     </resultMap>
-    <resultMap id="OrderItemsResultMap" type="Orders">
+    <resultMap id="OrderItemsResultMap" type="Orders" extends="BaseResultMap">
         <collection property="orderdetails" resultMap="com.zhf.shopping.mapper.OrderDetailMapper.DetailItemResultMap"/>
     </resultMap>
+    <!--<resultMap id="AllInfoResultMap" type="Orders" extends="BaseResultMap">-->
+    <!--<association property="user" resultMap="com.zhf.shopping.mapper.UserMapper.BaseResultMap"/>-->
+    <!--<collection property="orderdetails" resultMap="com.zhf.shopping.mapper.OrderDetailMapper.DetailItemResultMap"/>-->
+    <!--</resultMap>-->
+
     <select id="findUserByOrderId" resultMap="OrderUserResultMap">
         select t1.*, t2.username
         from orders t1,

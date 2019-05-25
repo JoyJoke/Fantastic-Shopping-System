@@ -16,6 +16,9 @@
     <resultMap extends="BaseResultMap" id="UserItemsResultMap" type="com.zhf.shopping.entity.User">
         <collection property="orders" resultMap="com.zhf.shopping.mapper.OrdersMapper.OrderItemsResultMap"/>
     </resultMap>
+    <!--<resultMap id="AllInfoResultMap" type="User" extends="BaseResultMap">-->
+    <!--<collection property="orders" resultMap="com.zhf.shopping.mapper.OrdersMapper.AllInfoResultMap"/>-->
+    <!--</resultMap>-->
     <select id="findItemsByUserId" resultMap="UserItemsResultMap">
         select t1.*,
                t2.username,
@@ -42,6 +45,7 @@
         where t1.user_id = t2.user_id
           and t2.user_id = #{userId,jdbcType=INTEGER}
     </select>
+
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         user_id, username, sex, birthday, `password`, phone
