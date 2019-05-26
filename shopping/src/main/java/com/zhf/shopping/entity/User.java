@@ -1,10 +1,14 @@
 package com.zhf.shopping.entity;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-public class User implements Serializable {
+public class User implements Serializable, UserDetails {
     /**
      * id
      */
@@ -31,8 +35,39 @@ public class User implements Serializable {
 
     private List<Orders> orders;
 
-
     private static final long serialVersionUID = 1L;
+
+    private List<Role> authorities;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(List<Role> authorities) {
+        this.authorities = authorities;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
 
     public Integer getUserId() {
         return userId;

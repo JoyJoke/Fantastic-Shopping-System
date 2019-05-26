@@ -2,13 +2,16 @@ package com.zhf.shopping.service;
 
 import com.zhf.shopping.entity.User;
 import com.zhf.shopping.mapper.UserMapper;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     @Resource
     private UserMapper userMapper;
@@ -49,6 +52,11 @@ public class UserService {
 
     public List<User> findItemsByUserId(Integer userId) {
         return userMapper.findItemsByUserId(userId);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return userMapper.selectByUsername(s);
     }
 }
 

@@ -1,5 +1,6 @@
 package com.zhf.shopping.mapper;
 
+import com.zhf.shopping.entity.Role;
 import com.zhf.shopping.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,6 +15,10 @@ public interface UserMapper {
     int insertSelective(User record);
 
     User selectByPrimaryKey(Integer userId);
+
+    User selectByUsername(String userName);
+
+    List<Role> findRoleByUserId(Integer userId);
 
     int updateByPrimaryKeySelective(User record);
 

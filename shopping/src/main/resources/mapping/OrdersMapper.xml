@@ -11,8 +11,8 @@
     <resultMap id="OrderUserResultMap" type="com.zhf.shopping.entity.Orders" extends="BaseResultMap">
         <association property="user" resultMap="com.zhf.shopping.mapper.UserMapper.BaseResultMap"/>
     </resultMap>
-    <resultMap id="OrdersAndOrderDetailResultMap" type="com.zhf.shopping.entity.Orders" extends="OrderUserResultMap">
-        <collection property="orderdetails" resultMap="com.zhf.shopping.mapper.OrderDetailMapper.BaseResultMap"/>
+    <resultMap id="OrdersAndOrderDetailResultMap" type="com.zhf.shopping.entity.Orders" extends="BaseResultMap">
+        <collection property="orderdetails" resultMap="com.zhf.shopping.mapper.OrderDetailMapper.DetailItemResultMap"/>
     </resultMap>
     <resultMap id="OrderItemsResultMap" type="Orders" extends="BaseResultMap">
         <collection property="orderdetails" resultMap="com.zhf.shopping.mapper.OrderDetailMapper.DetailItemResultMap"/>
@@ -38,7 +38,6 @@
           and t1.order_id = t3.order_id
           and t1.order_id = #{orderId,jdbcType=INTEGER}
     </select>
-
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         order_id, user_id, `number`, create_time

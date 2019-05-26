@@ -16,6 +16,23 @@
     <resultMap extends="BaseResultMap" id="UserItemsResultMap" type="com.zhf.shopping.entity.User">
         <collection property="orders" resultMap="com.zhf.shopping.mapper.OrdersMapper.OrderItemsResultMap"/>
     </resultMap>
+    <resultMap id="UserRoleResultMap" type="User" extends="BaseResultMap">
+        <collection property="authorities" column="user_id" select="findRoleByUserId"/>
+    </resultMap>
+    <select id="findRoleByUserId" resultType="Role">
+        select t2.*
+        from user_role t1,
+             role t2
+        where t1.role_id = t2.role_id
+          and t1.user_id = #{userId,jdbcType=INTEGER}
+    </select>
+    <select id="selectByUsername" resultMap="UserRoleResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where
+        username = #{userName,jdbcType=VARCHAR}
+    </select>
     <!--<resultMap id="AllInfoResultMap" type="User" extends="BaseResultMap">-->
     <!--<collection property="orders" resultMap="com.zhf.shopping.mapper.OrdersMapper.AllInfoResultMap"/>-->
     <!--</resultMap>-->
@@ -57,6 +74,7 @@
         from user
         where user_id = #{userId,jdbcType=INTEGER}
     </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         <!--@mbg.generated-->
         delete from user
