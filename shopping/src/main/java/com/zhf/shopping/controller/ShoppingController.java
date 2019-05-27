@@ -2,13 +2,14 @@ package com.zhf.shopping.controller;
 
 import com.zhf.shopping.entity.Orders;
 import com.zhf.shopping.entity.User;
+import com.zhf.shopping.rabbitmq.annotation.SysLogger;
 import com.zhf.shopping.service.ItemsService;
 import com.zhf.shopping.service.OrderDetailService;
 import com.zhf.shopping.service.OrdersService;
 import com.zhf.shopping.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -46,6 +47,7 @@ public class ShoppingController {
     }
 
     @RequestMapping(value = "/login")
+    @SysLogger("/login")
     public String login() {
         return "login";
     }
@@ -120,13 +122,14 @@ public class ShoppingController {
 
 
     @ResponseBody
-    @Cacheable(value = "orders", cacheManager = "redisCacheManager")
+//    @Cacheable(value = "orders", cacheManager = "redisCacheManager")
     @GetMapping("orders/get")
     public List<User> getOrdersByUserId(@RequestParam("userId") Integer userId) {
         //stringRedisTemplate.opsForValue().set("orders", userService.findOrdersByUserId(userId).toString());
         return userService.findOrdersByUserId(userId);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ResponseBody
     @GetMapping("items/get")
     public List<User> getItemsByUserId(@RequestParam("userId") Integer userId) {

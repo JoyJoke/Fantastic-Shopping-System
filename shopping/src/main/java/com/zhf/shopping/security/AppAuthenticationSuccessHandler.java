@@ -41,7 +41,7 @@ public class AppAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucc
         // 获取当前登录用户的角色权限集合
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
-        List<String> roles = new ArrayList<String>();
+        List<String> roles = new ArrayList<>();
 
         // 将角色名称添加到List集合
         for (GrantedAuthority a : authorities) {

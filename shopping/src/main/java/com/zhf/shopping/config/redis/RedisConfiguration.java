@@ -1,4 +1,4 @@
-package com.zhf.shopping.config;
+package com.zhf.shopping.config.redis;
 
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

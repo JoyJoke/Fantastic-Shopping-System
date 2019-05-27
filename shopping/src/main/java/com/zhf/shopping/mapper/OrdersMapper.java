@@ -1,11 +1,9 @@
 package com.zhf.shopping.mapper;
 
 import com.zhf.shopping.entity.Orders;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
-@Mapper
 public interface OrdersMapper {
     int deleteByPrimaryKey(Integer orderId);
 

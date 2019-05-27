@@ -1,9 +1,7 @@
 package com.zhf.shopping.mapper;
 
 import com.zhf.shopping.entity.Items;
-import org.apache.ibatis.annotations.Mapper;
 
-@Mapper
 public interface ItemsMapper {
     int deleteByPrimaryKey(Integer itemId);
 

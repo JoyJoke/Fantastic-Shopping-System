@@ -1,9 +1,7 @@
 package com.zhf.shopping.mapper;
 
 import com.zhf.shopping.entity.OrderDetail;
-import org.apache.ibatis.annotations.Mapper;
 
-@Mapper
 public interface OrderDetailMapper {
     int deleteByPrimaryKey(Integer detailId);
 

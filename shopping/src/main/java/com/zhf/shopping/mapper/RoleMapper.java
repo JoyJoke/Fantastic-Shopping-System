@@ -1,9 +1,7 @@
 package com.zhf.shopping.mapper;
 
 import com.zhf.shopping.entity.Role;
-import org.apache.ibatis.annotations.Mapper;
 
-@Mapper
 public interface RoleMapper {
     int deleteByPrimaryKey(Integer roleId);
 

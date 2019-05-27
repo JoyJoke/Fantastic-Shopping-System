@@ -38,6 +38,8 @@ public class ShoppingSecutiryConfigurer extends WebSecurityConfigurerAdapter {
     @Autowired
     AppAuthenticationSuccessHandler appAuthenticationSuccessHandler;
 
+    //    @Autowired
+//    ShopAuthenticationSuccessHandler shopAuthenticationSuccessHandler;
     /*
      *  BCryptPasswordEncoder是Spring Security提供的PasswordEncoder接口是实现类
      *  用来创建密码的加密程序，避免明文存储密码到数据库
