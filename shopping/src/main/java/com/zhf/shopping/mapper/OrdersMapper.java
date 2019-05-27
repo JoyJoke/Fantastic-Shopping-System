@@ -2,8 +2,6 @@ package com.zhf.shopping.mapper;
 
 import com.zhf.shopping.entity.Orders;
 
-import java.util.List;
-
 public interface OrdersMapper {
     int deleteByPrimaryKey(Integer orderId);
 
@@ -19,5 +17,5 @@ public interface OrdersMapper {
 
     Orders findUserByOrderId(Integer orderId);
 
-    List<Orders> findOrderDetailsByOrderId(Integer orderId);
+    Orders findOrderDetailsByOrderId(Integer orderId);
 }

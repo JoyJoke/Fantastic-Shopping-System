@@ -119,26 +119,21 @@ public class ShoppingController {
     }
 
 
-
-
-    @ResponseBody
-//    @Cacheable(value = "orders", cacheManager = "redisCacheManager")
     @GetMapping("orders/get")
-    public List<User> getOrdersByUserId(@RequestParam("userId") Integer userId) {
+    public User getOrdersByUserId(@RequestParam("userId") Integer userId) {
         //stringRedisTemplate.opsForValue().set("orders", userService.findOrdersByUserId(userId).toString());
         return userService.findOrdersByUserId(userId);
     }
-
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ResponseBody
     @GetMapping("items/get")
-    public List<User> getItemsByUserId(@RequestParam("userId") Integer userId) {
+    public User getItemsByUserId(@RequestParam("userId") Integer userId) {
         return userService.findItemsByUserId(userId);
     }
 
     @ResponseBody
     @GetMapping("details/get")
-    public List<Orders> findOrderDetailsByOrderId(@RequestParam("orderId") Integer orderId) {
+    public Orders findOrderDetailsByOrderId(@RequestParam("orderId") Integer orderId) {
         return ordersService.findOrderDetailsByOrderId(orderId);
     }
 

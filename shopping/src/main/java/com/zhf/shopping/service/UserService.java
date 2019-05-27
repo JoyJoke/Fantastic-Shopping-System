@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -46,11 +45,15 @@ public class UserService implements UserDetailsService {
         return userMapper.updateByPrimaryKey(record);
     }
 
-    public List<User> findOrdersByUserId(Integer userId) {
+    //    public PageInfo<User> findOrdersByUserId(Integer userId,int page, int pageSize) {
+//        PageHelper.startPage(page, pageSize);
+//        return new PageInfo<>(userMapper.findOrdersByUserId(userId));
+//    }
+    public User findOrdersByUserId(Integer userId) {
         return userMapper.findOrdersByUserId(userId);
     }
 
-    public List<User> findItemsByUserId(Integer userId) {
+    public User findItemsByUserId(Integer userId) {
         return userMapper.findItemsByUserId(userId);
     }
 

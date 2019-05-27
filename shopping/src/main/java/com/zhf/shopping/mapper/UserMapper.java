@@ -22,7 +22,7 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
-    List<User> findOrdersByUserId(Integer userId);
+    User findOrdersByUserId(Integer userId);
 
-    List<User> findItemsByUserId(Integer userId);
+    User findItemsByUserId(Integer userId);
 }

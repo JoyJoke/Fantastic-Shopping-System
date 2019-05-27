@@ -5,7 +5,6 @@ import com.zhf.shopping.mapper.OrdersMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @Service
 public class OrdersService {
@@ -48,7 +47,7 @@ public class OrdersService {
         return ordersMapper.findUserByOrderId(orderId);
     }
 
-    public List<Orders> findOrderDetailsByOrderId(Integer orderId) {
+    public Orders findOrderDetailsByOrderId(Integer orderId) {
         return ordersMapper.findOrderDetailsByOrderId(orderId);
     }
 }
