@@ -1,7 +1,9 @@
 package com.zhf.shopping.controller;
 
+import com.github.pagehelper.PageInfo;
+import com.zhf.shopping.entity.Items;
+import com.zhf.shopping.entity.OrderDetail;
 import com.zhf.shopping.entity.Orders;
-import com.zhf.shopping.entity.User;
 import com.zhf.shopping.rabbitmq.annotation.SysLogger;
 import com.zhf.shopping.service.ItemsService;
 import com.zhf.shopping.service.OrderDetailService;
@@ -118,23 +120,31 @@ public class ShoppingController {
         return roles.toString();
     }
 
+//    @ResponseBody
+//    @GetMapping("orders/get")
+//    public User getOrdersByUserId(@RequestParam("userId") Integer userId) {
+//        //stringRedisTemplate.opsForValue().set("orders", userService.findOrdersByUserId(userId).toString());
+//        return userService.findOrdersByUserId(userId);
+//    }
 
-    @GetMapping("orders/get")
-    public User getOrdersByUserId(@RequestParam("userId") Integer userId) {
+    @ResponseBody
+    @GetMapping("user/orders")
+    public PageInfo<Orders> getOrdersByUserId(@RequestParam("userId") Integer userId, @RequestParam("page") Integer page, @RequestParam("pageSize") Integer pageSize) {
         //stringRedisTemplate.opsForValue().set("orders", userService.findOrdersByUserId(userId).toString());
-        return userService.findOrdersByUserId(userId);
+        return userService.findOrdersByUserId(userId, page, pageSize);
     }
+
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ResponseBody
-    @GetMapping("items/get")
-    public User getItemsByUserId(@RequestParam("userId") Integer userId) {
-        return userService.findItemsByUserId(userId);
+    @GetMapping("user/items")
+    public PageInfo<Items> getItemsByUserId(@RequestParam("userId") Integer userId, @RequestParam("page") Integer page, @RequestParam("pageSize") Integer pageSize) {
+        return userService.findItemsByUserId(userId, page, pageSize);
     }
 
     @ResponseBody
-    @GetMapping("details/get")
-    public Orders findOrderDetailsByOrderId(@RequestParam("orderId") Integer orderId) {
-        return ordersService.findOrderDetailsByOrderId(orderId);
+    @GetMapping("order/details")
+    public PageInfo<OrderDetail> findOrderDetailsByOrderId(@RequestParam("orderId") Integer orderId, @RequestParam("page") Integer page, @RequestParam("pageSize") Integer pageSize) {
+        return ordersService.findOrderDetailsByOrderId(orderId, page, pageSize);
     }
 
 }

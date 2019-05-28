@@ -11,12 +11,12 @@
     <resultMap id="OrderUserResultMap" type="com.zhf.shopping.entity.Orders" extends="BaseResultMap">
         <association property="user" resultMap="com.zhf.shopping.mapper.UserMapper.BaseResultMap"/>
     </resultMap>
-    <resultMap id="OrdersAndOrderDetailResultMap" type="com.zhf.shopping.entity.Orders" extends="BaseResultMap">
+    <resultMap id="OrdersAndOrderDetailAndItemResultMap" type="com.zhf.shopping.entity.Orders" extends="BaseResultMap">
         <collection property="orderdetails" resultMap="com.zhf.shopping.mapper.OrderDetailMapper.DetailItemResultMap"/>
     </resultMap>
-    <resultMap id="OrderItemsResultMap" type="Orders" extends="BaseResultMap">
-        <collection property="orderdetails" resultMap="com.zhf.shopping.mapper.OrderDetailMapper.DetailItemResultMap"/>
-    </resultMap>
+    <!--<resultMap id="OrderItemsResultMap" type="Orders" extends="BaseResultMap">-->
+    <!--<collection property="orderdetails" resultMap="com.zhf.shopping.mapper.OrderDetailMapper.DetailItemResultMap"/>-->
+    <!--</resultMap>-->
     <!--<resultMap id="AllInfoResultMap" type="Orders" extends="BaseResultMap">-->
     <!--<association property="user" resultMap="com.zhf.shopping.mapper.UserMapper.BaseResultMap"/>-->
     <!--<collection property="orderdetails" resultMap="com.zhf.shopping.mapper.OrderDetailMapper.DetailItemResultMap"/>-->
@@ -29,13 +29,22 @@
         where t1.user_id = t2.user_id
           and t1.order_id = #{orderId,jdbcType=INTEGER}
     </select>
-    <select id="findOrderDetailsByOrderId" resultMap="OrdersAndOrderDetailResultMap">
-        select t1.*, t2.username, t3.item_id, t3.item_num, t3.detail_id
+    <select id="findOrderDetailsByOrderId" resultMap="OrdersAndOrderDetailAndItemResultMap">
+        select t1.*,
+               t2.username,
+               t3.item_id,
+               t3.item_num,
+               t3.detail_id,
+               t4.item_name,
+               t4.detail,
+               t4.picture
         from orders t1,
              user t2,
-             order_detail t3
+             order_detail t3,
+             items t4
         where t1.user_id = t2.user_id
           and t1.order_id = t3.order_id
+          and t3.item_id = t4.item_id
           and t1.order_id = #{orderId,jdbcType=INTEGER}
     </select>
     <sql id="Base_Column_List">

@@ -19,6 +19,8 @@ public class Items implements Serializable {
      */
     private String detail;
 
+    private Double price;
+
     /**
      * picture
      */
@@ -55,6 +57,14 @@ public class Items implements Serializable {
         this.detail = detail;
     }
 
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
     public String getPicture() {
         return picture;
     }
@@ -73,12 +83,17 @@ public class Items implements Serializable {
 
     @Override
     public String toString() {
-        return "Items{" +
-                "itemId=" + itemId +
-                ", itemName='" + itemName + '\'' +
-                ", detail='" + detail + '\'' +
-                ", picture='" + picture + '\'' +
-                ", createTime=" + createTime +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", itemId=").append(itemId);
+        sb.append(", itemName=").append(itemName);
+        sb.append(", detail=").append(detail);
+        sb.append(", price=").append(price);
+        sb.append(", picture=").append(picture);
+        sb.append(", createTime=").append(createTime);
+        sb.append("]");
+        return sb.toString();
     }
 }

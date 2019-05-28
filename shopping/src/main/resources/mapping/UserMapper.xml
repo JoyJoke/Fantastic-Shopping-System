@@ -14,7 +14,8 @@
         <collection property="orders" resultMap="com.zhf.shopping.mapper.OrdersMapper.BaseResultMap"/>
     </resultMap>
     <resultMap extends="BaseResultMap" id="UserItemsResultMap" type="com.zhf.shopping.entity.User">
-        <collection property="orders" resultMap="com.zhf.shopping.mapper.OrdersMapper.OrderItemsResultMap"/>
+        <collection property="orders"
+                    resultMap="com.zhf.shopping.mapper.OrdersMapper.OrdersAndOrderDetailAndItemResultMap"/>
     </resultMap>
     <resultMap id="UserRoleResultMap" type="User" extends="BaseResultMap">
         <collection property="authorities" column="user_id" select="findRoleByUserId"/>
@@ -62,7 +63,6 @@
         where t1.user_id = t2.user_id
           and t2.user_id = #{userId,jdbcType=INTEGER}
     </select>
-
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         user_id, username, sex, birthday, `password`, phone

@@ -1,5 +1,9 @@
 package com.zhf.shopping.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.zhf.shopping.entity.Items;
+import com.zhf.shopping.entity.Orders;
 import com.zhf.shopping.entity.User;
 import com.zhf.shopping.mapper.UserMapper;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,6 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -45,16 +51,21 @@ public class UserService implements UserDetailsService {
         return userMapper.updateByPrimaryKey(record);
     }
 
-    //    public PageInfo<User> findOrdersByUserId(Integer userId,int page, int pageSize) {
-//        PageHelper.startPage(page, pageSize);
-//        return new PageInfo<>(userMapper.findOrdersByUserId(userId));
-//    }
-    public User findOrdersByUserId(Integer userId) {
-        return userMapper.findOrdersByUserId(userId);
+    public PageInfo<Orders> findOrdersByUserId(Integer userId, int page, int pageSize) {
+        PageHelper.startPage(page, pageSize);
+        return new PageInfo<Orders>(userMapper.findOrdersByUserId(userId).getOrders());
     }
+//    public User findOrdersByUserId(Integer userId) {
+//        return userMapper.findOrdersByUserId(userId);
+//    }
 
-    public User findItemsByUserId(Integer userId) {
-        return userMapper.findItemsByUserId(userId);
+    public PageInfo<Items> findItemsByUserId(Integer userId, int page, int pageSize) {
+        PageHelper.startPage(page, pageSize);
+        List<Items> items = new ArrayList<>();
+        userMapper.findItemsByUserId(userId).getOrders().parallelStream().forEach(
+                orders -> orders.getOrderdetails().parallelStream().forEach(orderDetail -> items.add(orderDetail.getItems())
+                ));
+        return new PageInfo<Items>(items);
     }
 
     @Override

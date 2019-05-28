@@ -1,5 +1,8 @@
 package com.zhf.shopping.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.zhf.shopping.entity.OrderDetail;
 import com.zhf.shopping.entity.Orders;
 import com.zhf.shopping.mapper.OrdersMapper;
 import org.springframework.stereotype.Service;
@@ -47,7 +50,8 @@ public class OrdersService {
         return ordersMapper.findUserByOrderId(orderId);
     }
 
-    public Orders findOrderDetailsByOrderId(Integer orderId) {
-        return ordersMapper.findOrderDetailsByOrderId(orderId);
+    public PageInfo<OrderDetail> findOrderDetailsByOrderId(Integer orderId, int page, int pageSize) {
+        PageHelper.startPage(page, pageSize);
+        return new PageInfo<OrderDetail>(ordersMapper.findOrderDetailsByOrderId(orderId).getOrderdetails());
     }
 }
