@@ -9,11 +9,11 @@ import com.zhf.shopping.service.ItemsService;
 import com.zhf.shopping.service.OrderDetailService;
 import com.zhf.shopping.service.OrdersService;
 import com.zhf.shopping.service.UserService;
+import com.zhf.shopping.util.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -25,8 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class ShoppingController {
@@ -100,7 +99,7 @@ public class ShoppingController {
      */
     private String getUsername() {
         // 从SecurityContex中获得Authentication对象代表当前用户的信息
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        String username = UserUtils.getCurrentAuthentication().getName();
         System.out.println("username = " + username);
         return username;
     }
@@ -109,15 +108,8 @@ public class ShoppingController {
      * 获得当前用户权限
      */
     private String getAuthority() {
-        // 获得Authentication对象，表示用户认证信息。
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        List<String> roles = new ArrayList<String>();
-        // 将角色名称添加到List集合
-        for (GrantedAuthority a : authentication.getAuthorities()) {
-            roles.add(a.getAuthority());
-        }
-        System.out.println("role = " + roles);
-        return roles.toString();
+        return UserUtils.getCurrentAuthentication().getAuthorities().stream().map(a -> a.getAuthority()).collect(Collectors.joining());
+
     }
 
 //    @ResponseBody

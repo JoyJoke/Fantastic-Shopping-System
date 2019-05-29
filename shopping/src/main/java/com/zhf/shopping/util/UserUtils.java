@@ -1,12 +1,17 @@
 package com.zhf.shopping.util;
 
+import com.zhf.shopping.entity.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
 
 public class UserUtils {
+
+    private static final Logger lg = LoggerFactory.getLogger(UserUtils.class);
 
     private static final String AUTHORIZATION = "authorization";
 
@@ -20,12 +25,13 @@ public class UserUtils {
     }
 
     /**
-     * 获取当前请求的用户Id
+     * 获取当前请求的用户
      *
      * @return
      */
-    public static String getCurrentPrinciple() {
-        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public static User getCurrentPrinciple() {
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
     }
 
     /**
@@ -35,7 +41,7 @@ public class UserUtils {
      * @return
      */
     public static boolean isMyself(String username) {
-        return username.equals(getCurrentPrinciple());
+        return username.equals(getCurrentPrinciple().getUsername());
     }
 
     /**
@@ -52,8 +58,8 @@ public class UserUtils {
      *
      * @return
      */
-    public static List<SimpleGrantedAuthority> getCurrentAuthorities() {
-        return (List<SimpleGrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+    public static List<GrantedAuthority> getCurrentAuthorities() {
+        return (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
     }
 
     /**
@@ -65,11 +71,8 @@ public class UserUtils {
             role = "ROLE_" + role;
         }
         boolean hasRole = false;
-        List<SimpleGrantedAuthority> list = getCurrentAuthorities();
-        list.forEach(System.out::println);
-        System.out.println("*****************");
-        //System.out.println("%%%%%%"+getCurrentAuthorities().get(0).getClass());
-        for (SimpleGrantedAuthority s : list) {
+        List<GrantedAuthority> list = getCurrentAuthorities();
+        for (GrantedAuthority s : list) {
             if (role.equals(s.getAuthority())) {
                 hasRole = true;
                 break;

@@ -1,9 +1,6 @@
 package com.zhf.shopping.mapper;
 
-import com.zhf.shopping.entity.Role;
 import com.zhf.shopping.entity.User;
-
-import java.util.List;
 
 public interface UserMapper {
     int deleteByPrimaryKey(Integer userId);
@@ -16,7 +13,7 @@ public interface UserMapper {
 
     User selectByUsername(String userName);
 
-    List<Role> findRoleByUserId(Integer userId);
+    User findRoleByUserId(Integer userId);
 
     int updateByPrimaryKeySelective(User record);
 

@@ -35,11 +35,11 @@ public class ShoppingSecutiryConfigurer extends WebSecurityConfigurerAdapter {
     private AuthenticationProvider authenticationProvider;
 
     // 依赖注入认证处理成功类，验证用户成功后处理不同用户跳转到不同的页面
-    @Autowired
-    AppAuthenticationSuccessHandler appAuthenticationSuccessHandler;
+//    @Autowired
+//    AppAuthenticationSuccessHandler appAuthenticationSuccessHandler;
 
-    //    @Autowired
-//    ShopAuthenticationSuccessHandler shopAuthenticationSuccessHandler;
+    @Autowired
+    ShopAuthenticationSuccessHandler shopAuthenticationSuccessHandler;
     /*
      *  BCryptPasswordEncoder是Spring Security提供的PasswordEncoder接口是实现类
      *  用来创建密码的加密程序，避免明文存储密码到数据库
@@ -85,7 +85,7 @@ public class ShoppingSecutiryConfigurer extends WebSecurityConfigurerAdapter {
             .antMatchers("/admin/**").hasAnyRole("ADMIN", "DBA")
             .anyRequest().authenticated()
             .and()
-            .formLogin().loginPage("/login").successHandler(appAuthenticationSuccessHandler)
+            .formLogin().loginPage("/login").successHandler(shopAuthenticationSuccessHandler)
             .usernameParameter("loginName").passwordParameter("password")
             .and()
             .logout().permitAll()

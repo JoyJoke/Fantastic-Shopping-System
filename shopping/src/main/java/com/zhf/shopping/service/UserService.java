@@ -6,16 +6,19 @@ import com.zhf.shopping.entity.Items;
 import com.zhf.shopping.entity.Orders;
 import com.zhf.shopping.entity.User;
 import com.zhf.shopping.mapper.UserMapper;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
+@CacheConfig(cacheNames = "userService", keyGenerator = "mykeygenerator")
 public class UserService implements UserDetailsService {
 
     @Resource
@@ -51,17 +54,16 @@ public class UserService implements UserDetailsService {
         return userMapper.updateByPrimaryKey(record);
     }
 
+    @Cacheable(cacheNames = "orders", key = "#root.methodName+'['+#userId+']'")
     public PageInfo<Orders> findOrdersByUserId(Integer userId, int page, int pageSize) {
         PageHelper.startPage(page, pageSize);
         return new PageInfo<Orders>(userMapper.findOrdersByUserId(userId).getOrders());
     }
-//    public User findOrdersByUserId(Integer userId) {
-//        return userMapper.findOrdersByUserId(userId);
-//    }
 
+    @Cacheable(cacheNames = "items", key = "#root.methodName+'['+#a0+']'")
     public PageInfo<Items> findItemsByUserId(Integer userId, int page, int pageSize) {
         PageHelper.startPage(page, pageSize);
-        List<Items> items = new ArrayList<>();
+        List<Items> items = new CopyOnWriteArrayList<>();
         userMapper.findItemsByUserId(userId).getOrders().parallelStream().forEach(
                 orders -> orders.getOrderdetails().parallelStream().forEach(orderDetail -> items.add(orderDetail.getItems())
                 ));
