@@ -10,12 +10,15 @@
     </parent>
     <groupId>com.zhf</groupId>
     <artifactId>shopping</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>v1.0.0</version>
     <name>shopping</name>
     <description>Demo project for Shopping</description>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <docker.image.prefix>zhanfu</docker.image.prefix>
     </properties>
 
     <dependencies>
@@ -36,6 +39,12 @@
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>1.2.10</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>mybatis-spring-boot-starter</artifactId>
+                    <groupId>org.mybatis.spring.boot</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
@@ -48,28 +57,19 @@
             <version>1.1.9</version>
         </dependency>
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.47</version>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>redis.clients</groupId>
-                    <artifactId>jedis</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>io.lettuce</groupId>
-                    <artifactId>lettuce-core</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <!-- 添加jedis客户端 -->
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-pool2</artifactId>
+                    <groupId>org.apache.commons</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!--spring2.0集成redis所需common-pool2-->
@@ -127,6 +127,23 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <configuration>
+                    <imageName>${docker.image.prefix}-${project.artifactId}</imageName>
+                    <imageTag>latest</imageTag>
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
             </plugin>
         </plugins>
     </build>
