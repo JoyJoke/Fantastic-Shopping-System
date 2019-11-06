@@ -4,7 +4,7 @@
     <resultMap id="BaseResultMap" type="com.zhf.shopping.entity.Orders">
         <!--@mbg.generated-->
         <id column="order_id" jdbcType="INTEGER" property="orderId"/>
-        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <!--<result column="user_id" jdbcType="INTEGER" property="userId"/>-->
         <result column="number" jdbcType="VARCHAR" property="number"/>
         <result column="create_time" jdbcType="DATE" property="createTime"/>
     </resultMap>
@@ -31,25 +31,21 @@
     </select>
     <select id="findOrderDetailsByOrderId" resultMap="OrdersAndOrderDetailAndItemResultMap">
         select t1.*,
-               t2.username,
-               t3.item_id,
-               t3.item_num,
-               t3.detail_id,
-               t4.item_name,
-               t4.detail,
-               t4.picture
+#                t2.username,
+               t3.item_id, t3.item_num, t3.detail_id, t4.item_name, t4.detail, t4.picture
         from orders t1,
-             user t2,
+#              user t2,
              order_detail t3,
              items t4
-        where t1.user_id = t2.user_id
-          and t1.order_id = t3.order_id
+        where
+#                 t1.user_id = t2.user_id
+                t1.order_id = t3.order_id
           and t3.item_id = t4.item_id
           and t1.order_id = #{orderId,jdbcType=INTEGER}
     </select>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        order_id, user_id, `number`, create_time
+        order_id, `number`, create_time
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -66,9 +62,9 @@
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.zhf.shopping.entity.Orders"
             useGeneratedKeys="true">
         <!--@mbg.generated-->
-        insert into orders (user_id, `number`, create_time
+        insert into orders (`number`, create_time
         )
-        values (#{userId,jdbcType=INTEGER}, #{number,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE}
+        values (#{number,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE}
         )
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.zhf.shopping.entity.Orders"
@@ -76,9 +72,6 @@
         <!--@mbg.generated-->
         insert into orders
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="userId != null">
-                user_id,
-            </if>
             <if test="number != null">
                 `number`,
             </if>
@@ -87,9 +80,6 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="userId != null">
-                #{userId,jdbcType=INTEGER},
-            </if>
             <if test="number != null">
                 #{number,jdbcType=VARCHAR},
             </if>
@@ -102,9 +92,6 @@
         <!--@mbg.generated-->
         update orders
         <set>
-            <if test="userId != null">
-                user_id = #{userId,jdbcType=INTEGER},
-            </if>
             <if test="number != null">
                 `number` = #{number,jdbcType=VARCHAR},
             </if>
@@ -117,7 +104,6 @@
     <update id="updateByPrimaryKey" parameterType="com.zhf.shopping.entity.Orders">
         <!--@mbg.generated-->
         update orders
-        set user_id = #{userId,jdbcType=INTEGER},
         `number` = #{number,jdbcType=VARCHAR},
         create_time = #{createTime,jdbcType=DATE}
         where order_id = #{orderId,jdbcType=INTEGER}

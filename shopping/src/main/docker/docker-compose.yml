@@ -1,0 +1,32 @@
+version: '3'
+services:
+  dockershopping:
+    build: .
+    ports:
+    - "8666:8080"
+    #    volumes:
+    #    - .:/code
+    depends_on:
+    - mysql
+    - redis
+    - mongo
+  mysql:
+    image: "mysql:latest"
+    ports:
+    - "32770:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+    volumes:
+    - /tmp/mysql:/var/tmp
+    command: ["mysql","-uroot", "-p12345","<","/var/tmp/shopping.sql"]
+    container_name: mysql_shop
+  redis:
+    image: "redis:latest"
+    ports:
+    - "32773:6379"
+    container_name: redis_shop
+  mongo:
+    image: "mongo:latest"
+    ports:
+    - "32774:27017"
+    container_name: mongo_shop

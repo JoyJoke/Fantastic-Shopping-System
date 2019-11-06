@@ -10,10 +10,10 @@ public class Orders implements Serializable {
      */
     private Integer orderId;
 
-    /**
-     * userId
-     */
-    private Integer userId;
+//    /**
+//     * userId
+//     */
+//    private Integer userId;
 
     /**
      * number
@@ -52,13 +52,13 @@ public class Orders implements Serializable {
         this.orderId = orderId;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+//    public Integer getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(Integer userId) {
+//        this.userId = userId;
+//    }
 
     public String getNumber() {
         return number;
@@ -84,7 +84,7 @@ public class Orders implements Serializable {
     public String toString() {
         return "Orders{" +
                 "orderId=" + orderId +
-                ", userId=" + userId +
+//                ", userId=" + userId +
                 ", number='" + number + '\'' +
                 ", createTime=" + createTime +
                 ", user=" + user +

@@ -56,7 +56,7 @@ public class SysLoggerAspect {
         //设置IP地址
         sysLog.setIp(HttpUtils.getIpAddress());
         //用户名
-        String username = UserUtils.getCurrentPrinciple();
+        String username = UserUtils.getCurrentPrinciple().getUsername();
         if (!StringUtils.isEmpty(username)) {
             sysLog.setUsername(username);
         }

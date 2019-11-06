@@ -108,6 +108,7 @@ public class ShoppingController {
      * 获得当前用户权限
      */
     private String getAuthority() {
+
         return UserUtils.getCurrentAuthentication().getAuthorities().stream().map(a -> a.getAuthority()).collect(Collectors.joining());
 
     }

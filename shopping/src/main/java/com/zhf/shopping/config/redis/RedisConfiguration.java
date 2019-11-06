@@ -1,12 +1,9 @@
 package com.zhf.shopping.config.redis;
 
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -24,8 +21,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-@Configuration
-@AutoConfigureAfter(RedisAutoConfiguration.class)
+//@Configuration
+//@AutoConfigureAfter(RedisAutoConfiguration.class)
 public class RedisConfiguration extends CachingConfigurerSupport {
     @Bean(name = "redisCacheManager")
     public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
@@ -38,7 +35,7 @@ public class RedisConfiguration extends CachingConfigurerSupport {
         //设置缓存的默认过期时间，也是使用Duration设置
         // 不缓存空值,可能存在缓存穿透
         //设置CacheManager的值序列化方式为json序列化
-        RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofSeconds(120))
+        RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofSeconds(60))
                                                                             .serializeValuesWith(pair).disableCachingNullValues();
         // 设置一个初始化的缓存空间set集合
         Set<String> cacheNames = new HashSet<>();
@@ -46,8 +43,8 @@ public class RedisConfiguration extends CachingConfigurerSupport {
         cacheNames.add("Items");
         // 对每个缓存空间应用不同的配置
         Map<String, RedisCacheConfiguration> configMap = new HashMap<>();
-        configMap.put("orders", defaultCacheConfig);
-        configMap.put("Items", defaultCacheConfig.entryTtl(Duration.ofSeconds(120)));
+        configMap.put("Items", defaultCacheConfig);
+        configMap.put("orders", defaultCacheConfig.entryTtl(Duration.ofSeconds(120)));
 
         //初始化RedisCacheManager
         // 注意这两句的调用顺序，一定要先调用该方法设置初始化的缓存名，再初始化相关的配置
