@@ -24,6 +24,13 @@ public final class ResponseResultUtil {
 
 
     /**
+     * @description 请求成功返回对象
+     */
+    public final ResponseResultVO success() {
+        return this.success(null);
+    }
+
+    /**
      * @param responseCode 返回的响应码所对应的枚举类
      * @description 请求失败返回对象
      */
